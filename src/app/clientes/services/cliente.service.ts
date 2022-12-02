@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 
 
-import {Observable, of, tap, throwError} from 'rxjs';
-import{map, catchError} from 'rxjs/operators'
+import {Observable, of, throwError} from 'rxjs';
+import{map, catchError, tap} from 'rxjs/operators'
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Cliente } from '../interfaces/interface';
 
@@ -22,14 +22,28 @@ export class ClienteService {
 
   constructor(private http: HttpClient, private router: Router) { } //iyectamos el servicio -> referencia
 
-  getClientes(): Observable<Cliente[]> { //map para convertir tipo de dato 
-    return this.http.get(this.urlEndPoint)
+  getClientes(page: number): Observable<any> { //map para convertir tipo de dato 
+    return this.http.get(this.urlEndPoint+'/page/'+page)
       .pipe( //encadena operadores
-
-        map(response => response as Cliente[]),
-        tap(resp => { console.log("Si funciono") })
+        tap((response:any) => {
+          console.log("tap 1");
+          (response.content as Cliente[]).forEach(cliente => {
+              console.log(cliente.nombre); // no hace nada 
+          });
+        }),
+        map((response: any) => {
+            (response.content as Cliente[]).map(cliente => {
+              cliente.nombre = cliente.nombre.toUpperCase();
+              return cliente;
+        });
+        return response;
+        })
       );
   }
+
+
+
+
 
   //?Crear cliente
   create(cliente: Cliente): Observable<Cliente> {

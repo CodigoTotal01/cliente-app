@@ -8,7 +8,11 @@ import { HeaderComponent } from './shared/header/header.component';
 import { FooterComponent } from './shared/footer/footer.component';
 import { DirectivasComponent } from './directivas/directivas.component';
 import { ReactiveFormsModule } from '@angular/forms';
-
+import { LOCALE_ID } from '@angular/core';
+//cambiar de idioma a los pipes 
+import localeES from '@angular/common/locales/es'
+import { registerLocaleData } from '@angular/common';
+registerLocaleData(localeES, 'es')
 
 
 @NgModule({
@@ -24,7 +28,7 @@ import { ReactiveFormsModule } from '@angular/forms';
     HttpClientModule,
 
   ],
-  providers: [],
+  providers: [{provide: LOCALE_ID, useValue: 'es' }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -3,8 +3,9 @@ import { Cliente } from '../../interfaces/interface';
 import { ClienteService } from '../../services/cliente.service';
 
 import { CLIENTES } from './clientes.json';
-
+import {tap} from 'rxjs/operators'
 import Swal from 'sweetalert2'; //notificaciones mas bonitas
+import { ParseError } from '@angular/compiler';
 
 
 
@@ -17,12 +18,15 @@ import Swal from 'sweetalert2'; //notificaciones mas bonitas
 export class ClientesComponent implements OnInit {
 
   //confia en mi yo te dare valores 
-  clientes!: Cliente[];
+  clientes: Cliente[] = [];
 
   constructor(private clientesService: ClienteService) { }
   //cunando se inicia el compoenente 
   ngOnInit(): void {
-    this.clientesService.getClientes().subscribe(clientes =>  this.clientes= clientes);
+    let page:number = 0;
+    this.clientesService.getClientes(page).pipe(
+      tap(console.log) // tomar los datos pra hacer algo
+    ).subscribe(response =>  this.clientes= response.content as Cliente[]);
   }
 
 
