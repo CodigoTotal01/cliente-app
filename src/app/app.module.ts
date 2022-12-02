@@ -6,8 +6,8 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './shared/header/header.component';
 import { FooterComponent } from './shared/footer/footer.component';
-import { ClientesComponent } from './clientes/clientes.component';
 import { DirectivasComponent } from './directivas/directivas.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 
 
@@ -16,13 +16,13 @@ import { DirectivasComponent } from './directivas/directivas.component';
     AppComponent,
     HeaderComponent,
     FooterComponent,
-    ClientesComponent,
     DirectivasComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    HttpClientModule
+    HttpClientModule,
+
   ],
   providers: [],
   bootstrap: [AppComponent]

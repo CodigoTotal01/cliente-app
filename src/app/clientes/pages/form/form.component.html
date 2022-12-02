@@ -1,0 +1,64 @@
+
+<ul *ngIf="errores?.length! > 0" class="my-2 alert alert-danger">
+    <li class="px-2" *ngFor="let err of errores">
+        {{err}}
+    </li>
+</ul>
+<div class="card bg-dark text-white">
+    <div class="card-header">{{titulo}}</div>
+    <div class="card-body">
+        <form autocomplete="off" [formGroup]="formularioCliente">
+            <!-- input - nombre  -->
+            <div class="form-group row my-2">
+                <!--row form -> you will add collumns-->
+                <label class="col-form-label col-sm-2">Nombre: </label>
+                <div class="col-sm-6">
+                    <input formControlName="nombre" type="text" class="form-control">
+                    <span *ngIf="campoEsValido('nombre')" class="form-text text-danger"> El nombre minimo debe tener tres caracteres</span>
+                </div>
+
+            </div>
+
+            <!-- input -   -->
+            <div class="form-group row  my-2">
+                <!--row form -> you will add collumns-->
+                <label class="col-form-label col-sm-2">Apellido: </label>
+                <div class="col-sm-6">
+                    <input formControlName="apellido" type="text" class="form-control">
+                    <span *ngIf="campoEsValido('apellido')" class="form-text text-danger"> El apellido minimo debe tener tres caracteres</span>
+
+                </div>
+            </div>
+
+            <!-- input - space  -->
+            <div class="form-group row  my-2">
+                <!--row form -> you will add collumns-->
+                <label class="col-form-label col-sm-2"> Email: </label>
+                <div class="col-sm-6">
+                    <input formControlName="email" type="email" class="form-control">
+                    <span *ngIf="campoEsValido('email')" class="form-text text-danger"> El correo debe tener un formato adecuado</span>
+
+                </div>
+            </div>
+
+
+            <div class="row">
+                <div class="col">
+                    <button type="submit" [disabled]="formularioCliente.invalid" class="btn btn-primary float-end"
+                        (click)="createCliente()" *ngIf="!cliente.id else elseBLock">
+                        Crear
+                    </button>
+                </div>
+            </div>
+            <ng-template #elseBLock>
+                <button type="submit" [disabled]="formularioCliente.invalid" class="btn btn-primary float-end"
+                    (click)="update()">
+                    Actualizar
+                </button>
+            </ng-template>
+
+
+
+        </form>
+    </div>
+</div>

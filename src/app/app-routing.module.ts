@@ -1,13 +1,14 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { DirectivasComponent } from './directivas/directivas.component';
-import { ClientesComponent } from './clientes/clientes.component';
+
+import { ClientesModule } from './clientes/clientes.module';
 
 const routes: Routes = [
 
   {
     path: '',
-    redirectTo: '/clientes',
+    redirectTo: '/clientes/listado',
     pathMatch: 'full' 
   },
 
@@ -18,7 +19,7 @@ const routes: Routes = [
 
   {
     path: 'clientes',
-    component: ClientesComponent
+    loadChildren: ()=> import("./clientes/clientes.module").then(m=>m.ClientesModule)
 
   }
 
