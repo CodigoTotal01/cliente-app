@@ -12,6 +12,7 @@ import { LOCALE_ID } from '@angular/core';
 //cambiar de idioma a los pipes 
 import localeES from '@angular/common/locales/es'
 import { registerLocaleData } from '@angular/common';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 registerLocaleData(localeES, 'es')
 
 
@@ -20,12 +21,14 @@ registerLocaleData(localeES, 'es')
     AppComponent,
     HeaderComponent,
     FooterComponent,
-    DirectivasComponent
+    DirectivasComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
+    BrowserAnimationsModule,
+
 
   ],
   providers: [{provide: LOCALE_ID, useValue: 'es' }],

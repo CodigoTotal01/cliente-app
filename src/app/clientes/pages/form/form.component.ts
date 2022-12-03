@@ -24,12 +24,14 @@ export class FormComponent implements OnInit {
     apellido: '',
     email: '',
     id:0,
+    createAt: ''
   };
   //Formulario reactivo
   formularioCliente: FormGroup = this.fb.group({
     nombre: ["", [Validators.required, Validators.minLength(3)]],
     apellido: ["", [Validators.required, Validators.minLength(3)]],
     email: ["correo@correo.com", [Validators.required, Validators.email]],
+    createAt: ["", [Validators.required]]
   });
 
   id!:number;

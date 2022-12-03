@@ -3,9 +3,10 @@ import { Cliente } from '../../interfaces/interface';
 import { ClienteService } from '../../services/cliente.service';
 
 import { CLIENTES } from './clientes.json';
-import {tap} from 'rxjs/operators'
+import { tap } from 'rxjs/operators'
 import Swal from 'sweetalert2'; //notificaciones mas bonitas
 import { ParseError } from '@angular/compiler';
+import { ActivatedRoute } from '@angular/router';
 
 
 
@@ -19,18 +20,36 @@ export class ClientesComponent implements OnInit {
 
   //confia en mi yo te dare valores 
   clientes: Cliente[] = [];
+  paginador: any;
 
-  constructor(private clientesService: ClienteService) { }
+  //Activated Rou -> obtener el parametro por la ruta 
+  constructor(private clientesService: ClienteService
+    , private activatedRoute: ActivatedRoute) { }
   //cunando se inicia el compoenente 
   ngOnInit(): void {
-    let page:number = 0;
-    this.clientesService.getClientes(page).pipe(
-      tap(console.log) // tomar los datos pra hacer algo
-    ).subscribe(response =>  this.clientes= response.content as Cliente[]);
+
+
+    this.activatedRoute.paramMap.subscribe(params => {
+      console.log(params.get("page"))
+      let page: number = +params.get('page')!;
+      if (!page) {
+        page = 0;
+      }
+      //observable para ver el pcambio de parametros 
+      this.clientesService.getClientes(page).pipe(
+        tap(console.log) // tomar los datos pra hacer algo
+      ).subscribe(response => {
+        this.clientes = response.content as Cliente[],
+        this.paginador = response //datos del paginador
+      });
+    })
+
+
+
   }
 
 
-  delete(cliente : Cliente): void{
+  delete(cliente: Cliente): void {
     //preguntar si esta seguro de eleminar 
     Swal.fire({
       title: 'Está seguro?',
@@ -42,7 +61,7 @@ export class ClientesComponent implements OnInit {
       confirmButtonText: 'Si Eliminar!'
     }).then((result) => {
       if (result.isConfirmed) {
-        this.clientesService.delete(cliente.id!).subscribe(respose =>{
+        this.clientesService.delete(cliente.id!).subscribe(respose => {
           //! Cuando tengamos listas siempre recorrer el arreglo que etnga todos los datos no es tatttan reactivo o no es muy chismoso 
           this.clientes = this.clientes.filter(cli => cli != cliente); // si es distinto al cliente eleminado sacalo de la lista 
           Swal.fire(
@@ -51,7 +70,7 @@ export class ClientesComponent implements OnInit {
             'success'
           )
         });
-        
+
       }
     })
   }

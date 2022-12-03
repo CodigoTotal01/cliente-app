@@ -1,6 +1,5 @@
-
 <ul *ngIf="errores?.length! > 0" class="my-2 alert alert-danger">
-    <li  *ngFor="let err of errores">
+    <li *ngFor="let err of errores">
         {{err}}
     </li>
 </ul>
@@ -14,7 +13,8 @@
                 <label class="col-form-label col-sm-2">Nombre: </label>
                 <div class="col-sm-6">
                     <input formControlName="nombre" type="text" class="form-control">
-                    <span *ngIf="campoEsValido('nombre')" class="form-text text-danger"> El nombre minimo debe tener tres caracteres</span>
+                    <span *ngIf="campoEsValido('nombre')" class="form-text text-danger"> El nombre minimo debe tener
+                        tres caracteres</span>
                 </div>
 
             </div>
@@ -25,7 +25,8 @@
                 <label class="col-form-label col-sm-2">Apellido: </label>
                 <div class="col-sm-6">
                     <input formControlName="apellido" type="text" class="form-control">
-                    <span *ngIf="campoEsValido('apellido')" class="form-text text-danger"> El apellido minimo debe tener tres caracteres</span>
+                    <span *ngIf="campoEsValido('apellido')" class="form-text text-danger"> El apellido minimo debe tener
+                        tres caracteres</span>
 
                 </div>
             </div>
@@ -36,11 +37,23 @@
                 <label class="col-form-label col-sm-2"> Email: </label>
                 <div class="col-sm-6">
                     <input formControlName="email" type="email" class="form-control">
-                    <span *ngIf="campoEsValido('email')" class="form-text text-danger"> El correo debe tener un formato adecuado</span>
+                    <span *ngIf="campoEsValido('email')" class="form-text text-danger"> El correo debe tener un formato
+                        adecuado</span>
 
                 </div>
             </div>
 
+
+            <!-- input - space  -->
+            <div class="form-group row  my-2">
+                <!--row form -> you will add collumns-->
+                <label class="col-form-label col-sm-2"> createAt: </label>
+                <div class="col-sm-6">
+                    <input formControlName="createAt" type="date" class="form-control">
+                    <span *ngIf="campoEsValido('createAt')" class="form-text text-danger">La fecha debe tener un formato adecuado</span>
+
+                </div>
+            </div>
 
             <div class="row">
                 <div class="col">

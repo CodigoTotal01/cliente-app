@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { ClientesComponent } from './pages/listado/clientes.component';
 import { FormComponent } from './pages/form/form.component';
+import { DetalleComponent } from './pages/detalle/detalle.component';
 
 const routes: Routes = [
   {
@@ -14,6 +15,10 @@ const routes: Routes = [
        component: ClientesComponent 
       },
       {
+        path: "page/:page", //enviamos como un parametro normal solo ten cuidado al emplearlo
+        component: ClientesComponent 
+       },
+      {
         path: "form",
         component: FormComponent 
        },
@@ -21,6 +26,11 @@ const routes: Routes = [
         path: "form/:id", //recivira un parametro 
         component: FormComponent 
        },
+       {
+        path: "ver/:id", //recivira un parametro 
+        component: DetalleComponent 
+       },
+       
       {
         path: '**',
         redirectTo: 'listado'

@@ -38,7 +38,11 @@
 
     <tbody>
         <tr *ngFor="let cliente of clientes" >
-            <th>{{cliente.id }}</th>
+        <th>
+            <button name="uploads" type="button" [routerLink]="['/clientes/ver', cliente.id]" class="btn btn-primary">
+                    {{cliente.id }}
+            </button>
+        </th>
             <th>{{cliente.nombre | uppercase}}</th>
             <th>{{cliente.apellido}}</th>
             <th>{{cliente.email}}</th>
@@ -53,3 +57,6 @@
 
     </tbody>
 </table>
+
+<!-- hijo input  - atributo padre, per odebe haberse creado antes -->
+<paginator-nav *ngIf="paginador" [paginador]="paginador"></paginator-nav>
