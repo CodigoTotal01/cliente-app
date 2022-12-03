@@ -1,5 +1,5 @@
-
-  <div class="card text-bg-primary mb-3">
+<detalle-cliente *ngIf="clienteSeleccionado" [cliente]="clienteSeleccionado"></detalle-cliente>
+<div class="card text-bg-primary mb-3">
     <div class="card-header">CLientes</div>
     <div class="card-body">
         <h5 class="card-title">Listado de clientes</h5>
@@ -9,11 +9,7 @@
 
 
 <div class="my-2 text-left">
-    <button 
-        type="button" 
-        class="btn btn-rounded btn-primary"
-        [routerLink]="['/clientes/form']"
-        >Crear Cliente</button>
+    <button type="button" class="btn btn-rounded btn-primary" [routerLink]="['/clientes/form']">Crear Cliente</button>
 </div>
 <div *ngIf="clientes?.length == 0">
     <h1>No hay Clientes en la base de datos</h1>
@@ -22,12 +18,12 @@
 <table class="table table-bordered" *ngIf="clientes?.length! > 0 ">
     <thead>
         <tr>
-            <th>ID</th>
+            <th>I#</th>
             <th>Nombre
             </th>
             <th>Apellido
             </th>
-            <th>Email   
+            <th>Email
             </th>
             <th>Fecha
             </th>
@@ -37,21 +33,31 @@
     </thead>
 
     <tbody>
-        <tr *ngFor="let cliente of clientes" >
-        <th>
-            <button name="uploads" type="button" [routerLink]="['/clientes/ver', cliente.id]" class="btn btn-primary">
-                    {{cliente.id }}
-            </button>
-        </th>
+        <tr *ngFor="let cliente of clientes">
+            <th>
+
+                <!-- Button trigger modal -->
+
+                <img style="width: 64px; cursor: pointer;" (click)="abrirModal(cliente)" *ngIf="cliente?.foto"
+                    src="http://localhost:8080/api/uploads/img/{{cliente.foto}}" alt="{{cliente.foto}}"
+                    class="img-thumbnail rounded">
+
+                <img style="width: 64px; cursor: pointer;" (click)="abrirModal(cliente)" *ngIf="!cliente?.foto"
+                    src="http://localhost:8080/images/no-usuario.png" alt="{{cliente.foto}}"
+                    class="img-thumbnail rounded">
+
+            </th>
             <th>{{cliente.nombre | uppercase}}</th>
             <th>{{cliente.apellido}}</th>
             <th>{{cliente.email}}</th>
-            <th>{{cliente.createAt | date:"EEEE dd, MMMM, yyyy" |  titlecase}}</th>
+            <th>{{cliente.createAt | date:"EEEE dd, MMMM, yyyy" | titlecase}}</th>
             <th>
-                <button name="editar" type="button" [routerLink]="['/clientes/form', cliente.id]" class="btn btn-primary">Editar</button>
+                <button name="editar" type="button" [routerLink]="['/clientes/form', cliente.id]"
+                    class="btn btn-primary">Editar</button>
             </th>
             <th>
-                <button name="eliminar" type="button" (click)="delete(cliente)" class="btn btn-primary">Eliminar</button>
+                <button name="eliminar" type="button" (click)="delete(cliente)"
+                    class="btn btn-primary">Eliminar</button>
             </th>
         </tr>
 

@@ -26,11 +26,7 @@ const routes: Routes = [
         path: "form/:id", //recivira un parametro 
         component: FormComponent 
        },
-       {
-        path: "ver/:id", //recivira un parametro 
-        component: DetalleComponent 
-       },
-       
+      
       {
         path: '**',
         redirectTo: 'listado'

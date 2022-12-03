@@ -7,6 +7,7 @@ import { tap } from 'rxjs/operators'
 import Swal from 'sweetalert2'; //notificaciones mas bonitas
 import { ParseError } from '@angular/compiler';
 import { ActivatedRoute } from '@angular/router';
+import { DetalleService } from '../detalle/detalle.service';
 
 
 
@@ -22,9 +23,13 @@ export class ClientesComponent implements OnInit {
   clientes: Cliente[] = [];
   paginador: any;
 
+  clienteSeleccionado!: Cliente;
+
   //Activated Rou -> obtener el parametro por la ruta 
   constructor(private clientesService: ClienteService
-    , private activatedRoute: ActivatedRoute) { }
+    , private activatedRoute: ActivatedRoute
+    ,
+    private modalService: DetalleService) { }
   //cunando se inicia el compoenente 
   ngOnInit(): void {
 
@@ -40,8 +45,17 @@ export class ClientesComponent implements OnInit {
         tap(console.log) // tomar los datos pra hacer algo
       ).subscribe(response => {
         this.clientes = response.content as Cliente[],
-        this.paginador = response //datos del paginador
+          this.paginador = response //datos del paginador
       });
+
+      this.modalService.nofiticarUpload.subscribe(cliente => {
+        this.clientes = this.clientes.map(clienteOriginal => {
+          if (cliente.id == clienteOriginal.id) {
+            clienteOriginal.foto = cliente.foto;
+          }
+          return clienteOriginal;
+        })
+      })
     })
 
 
@@ -74,4 +88,12 @@ export class ClientesComponent implements OnInit {
       }
     })
   }
+
+  abrirModal(cliente: Cliente) {
+    this.clienteSeleccionado = cliente;
+    this.modalService.abrirModal();
+  }
+
+
+
 }
