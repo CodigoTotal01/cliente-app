@@ -55,6 +55,23 @@
                 </div>
             </div>
 
+
+               <!-- input - space  -->
+               <div class="form-group row  my-2">
+                <!--row form -> you will add collumns-->
+                <label class="col-form-label col-sm-2"> Region: </label>
+                <div class="col-sm-6">
+                <!-- icardo el comprae with -->
+                    <select [compareWith]="comprarRegion" formControlName="region" class="form-control">
+                        <option value=""> --Seleccionar region--</option>
+                        <option *ngFor="let region of regiones" [ngValue]="region">{{region.nombre}}</option>
+                    </select>
+
+                    <span *ngIf="campoEsValido('region')" class="form-text text-danger"> Debe seleccionarce una region</span>
+
+                </div>
+            </div>
+
             <div class="row">
                 <div class="col">
                     <button type="submit" [disabled]="formularioCliente.invalid" class="btn btn-primary float-end"

@@ -27,6 +27,7 @@
             </th>
             <th>Fecha
             </th>
+          
             <th>Editar</th>
             <th>Eliminar</th>
         </tr>
@@ -51,6 +52,8 @@
             <th>{{cliente.apellido}}</th>
             <th>{{cliente.email}}</th>
             <th>{{cliente.createAt | date:"EEEE dd, MMMM, yyyy" | titlecase}}</th>
+
+
             <th>
                 <button name="editar" type="button" [routerLink]="['/clientes/form', cliente.id]"
                     class="btn btn-primary">Editar</button>

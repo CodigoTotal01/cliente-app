@@ -5,4 +5,11 @@ export interface Cliente {
     createAt?: string;
     email: string;
     foto?:string;
+    region?: Region;
+}
+
+
+export interface Region{
+    id?: number ;
+    nombre: string;
 }
