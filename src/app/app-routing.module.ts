@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { DirectivasComponent } from './directivas/directivas.component';
 
 import { ClientesModule } from './clientes/clientes.module';
+import { AuthModule } from './auth/auth.module';
 
 const routes: Routes = [
 
@@ -20,7 +21,11 @@ const routes: Routes = [
   {
     path: 'clientes',
     loadChildren: ()=> import("./clientes/clientes.module").then(m=>m.ClientesModule)
+  },
 
+  {
+    path: 'auth',
+    loadChildren: () => import('./auth/auth.module').then(m => m.AuthModule)
   }
 
 ];

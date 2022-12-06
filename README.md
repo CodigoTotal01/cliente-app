@@ -25,3 +25,9 @@ Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To u
 ## Further help
 
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+
+## Datos
+cabezera: informacion sobre el algoritmo de codificacion y el tipo
+payload: datos que se tienen
+seguridad: verifica la firma -< codigo cetreto>
+Headers — Metadatos adicionales que se mandan a la API para ayudar al servidor a comprender qué tipo de solicitud se está mandando, por ejemplo, “content-type” (tipo de contenido).18 abr 2022
