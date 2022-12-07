@@ -9,7 +9,7 @@
 
 
 <div class="my-2 text-left">
-    <button type="button" class="btn btn-rounded btn-primary" [routerLink]="['/clientes/form']">Crear Cliente</button>
+    <button *ngIf="authService.hasRole('ROLE_ADMIN')"  type="button" class="btn btn-rounded btn-primary" [routerLink]="['/clientes/form']">Crear Cliente</button>
 </div>
 <div *ngIf="clientes?.length == 0">
     <h1>No hay Clientes en la base de datos</h1>
@@ -18,7 +18,7 @@
 <table class="table table-bordered" *ngIf="clientes?.length! > 0 ">
     <thead>
         <tr>
-            <th>I#</th>
+            <th *ngIf="authService.hasRole('ROLE_USER')" >#</th>
             <th>Nombre
             </th>
             <th>Apellido
@@ -28,14 +28,14 @@
             <th>Fecha
             </th>
           
-            <th>Editar</th>
-            <th>Eliminar</th>
+            <th *ngIf="authService.hasRole('ROLE_ADMIN')" >Editar</th>
+            <th *ngIf="authService.hasRole('ROLE_ADMIN')">Eliminar</th>
         </tr>
     </thead>
 
     <tbody>
         <tr *ngFor="let cliente of clientes">
-            <th>
+            <th  *ngIf="authService.hasRole('ROLE_USER')" >
 
                 <!-- Button trigger modal -->
 
@@ -54,11 +54,11 @@
             <th>{{cliente.createAt | date:"EEEE dd, MMMM, yyyy" | titlecase}}</th>
 
 
-            <th>
+            <th *ngIf="authService.hasRole('ROLE_ADMIN')" >
                 <button name="editar" type="button" [routerLink]="['/clientes/form', cliente.id]"
                     class="btn btn-primary">Editar</button>
             </th>
-            <th>
+            <th *ngIf="authService.hasRole('ROLE_ADMIN')">
                 <button name="eliminar" type="button" (click)="delete(cliente)"
                     class="btn btn-primary">Eliminar</button>
             </th>

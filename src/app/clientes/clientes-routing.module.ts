@@ -3,6 +3,8 @@ import { RouterModule, Routes } from '@angular/router';
 import { ClientesComponent } from './pages/listado/clientes.component';
 import { FormComponent } from './pages/form/form.component';
 import { DetalleComponent } from './pages/detalle/detalle.component';
+import { AuthGuard } from '../guards/auth.guard';
+import { RoleGuard } from '../guards/role.guard';
 
 const routes: Routes = [
   {
@@ -20,11 +22,21 @@ const routes: Routes = [
        },
       {
         path: "form",
-        component: FormComponent 
+        component: FormComponent,
+        canActivate:[AuthGuard, RoleGuard],
+        canLoad:[AuthGuard],
+        data:{
+          role: 'ROLE_ADMIN'
+        }
        },
        {
         path: "form/:id", //recivira un parametro 
-        component: FormComponent 
+        component: FormComponent,
+        canActivate:[AuthGuard, RoleGuard],
+        canLoad:[AuthGuard],
+        data:{
+          role: 'ROLE_ADMIN'
+        }
        },
       
       {

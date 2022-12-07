@@ -1,14 +1,11 @@
 import { Injectable } from '@angular/core';
-
-
-import { Observable, of, throwError } from 'rxjs';
+import { Observable, throwError } from 'rxjs';
 import { map, catchError, tap } from 'rxjs/operators'
-import { HttpClient, HttpEvent, HttpHeaders, HttpRequest } from '@angular/common/http';
+import { HttpClient, HttpRequest } from '@angular/common/http';
 import { Cliente, Region } from '../interfaces/interface';
 
-
 import { Router } from '@angular/router'
-import Swal from 'sweetalert2';
+
 
 
 
@@ -18,17 +15,26 @@ import Swal from 'sweetalert2';
 export class ClienteService {
   private urlEndPoint: string = "http://localhost:8080/api/clientes"
 
-  private httpHeaders = new HttpHeaders({ 'Content-Type': 'application/json' })//cabezeras
 
-  //! Manejar errores 
-  private isNoAutizado(e: any):boolean{
-    if(e.status ==  401 || e.status == 403){ //no autotizado / recurso proibido
-      this.router.navigate(['/auth/login'])
-      return true; // no esta autorizado
+  //! por defecto ahora sera de tipo json la palicacion
+
+
+  //private httpHeaders = new HttpHeaders({ 'Content-Type': 'application/json' })//cabezeras, inmutable -> agregamos con apend retorna una nueva instancia -> agregar metodo autorization
+/* sustituido por el interceptor, leimina la vacevra de las demas peticiones 
+  private agregarAutorizationHeader(){
+    let token = this.authService.token;
+    if(token !=null){
+      return this.httpHeaders.append('Authorization', 'Bearer '+ token); //enviar el token en la cabezera 
     }
 
-    return false; // autorizadoo
+    return this.httpHeaders; // si no hay nada retornamos lo normal sin anda 
   }
+  */
+
+
+
+  
+  
 
 
 
@@ -59,22 +65,18 @@ export class ClienteService {
 
   //?Crear cliente
   create(cliente: Cliente): Observable<Cliente> {
-    return this.http.post(this.urlEndPoint, cliente, { headers: this.httpHeaders })
+    return this.http.post(this.urlEndPoint, cliente)
       .pipe(
         map((response: any) => response.cliente as Cliente), //solo se estaria retornando lo del cliente 
         catchError(e => {
 
-          
-          if (this.isNoAutizado(e)) {
-            return throwError(() => e);
-          }
-       
-
+          console.log(e.error.mensaje);
           if (e.status == 400) {
             return throwError(() => e);
           }
-          console.log(e.error.mensaje);
-          Swal.fire(e.error.mensaje, e.error.error, 'error');
+          if(e.error.mensaje){
+              console.log(e.error.mensaje);
+          }
           return throwError(() => e);
         })
       );
@@ -86,13 +88,10 @@ export class ClienteService {
     return this.http.get<Cliente>(`${this.urlEndPoint}/${id}`)
       .pipe( //tendremos acceso a todos los operadores del flujo ->  map() , filter() , concat() , y flatMap() .
         catchError(e => {//lo obttiene por defecto apartir de los status
-              
-          if (this.isNoAutizado(e)) {
-            return throwError(() => e);
+          if(e.status != 401 && e.error.mensaje ){ //cuando el eerror es distinto a 401
+            this.router.navigate(['/clientes']);
+            console.log(e.error.mensaje);
           }
-          this.router.navigate(['/clientes']);
-          console.log(e.error.mensaje);
-          Swal.fire("Error al editar", e.error.mensaje, 'error');
           return throwError(() => e); //new for
         })
       );
@@ -100,17 +99,17 @@ export class ClienteService {
 
   //?Actualizar Cliente
   update(cliente: Cliente): Observable<any> {
-    return this.http.put<any>(`${this.urlEndPoint}/${cliente.id}`, cliente, { headers: this.httpHeaders }).pipe(
+    return this.http.put<any>(`${this.urlEndPoint}/${cliente.id}`, cliente).pipe(
       catchError(e => {
               
-        if (this.isNoAutizado(e)) {
-          return throwError(() => e);
-        }
+        console.log(e.error.mensaje);
 
         if(e.status == 400){
           return throwError(() => e)
         }
-        Swal.fire("Error al editar", e.error.mensaje, 'error');
+        if(e.error.mensaje){
+          console.log(e.error.mensaje);
+      }
         return throwError(() => e);
       })
     );
@@ -118,42 +117,48 @@ export class ClienteService {
 
 
   delete(id: number): Observable<Cliente> {
-    return this.http.delete<Cliente>(`${this.urlEndPoint}/${id}`, { headers: this.httpHeaders }).pipe(
+    return this.http.delete<Cliente>(`${this.urlEndPoint}/${id}`).pipe(
       catchError(e => {
-        if (this.isNoAutizado(e)) {
-          return throwError(() => e);
-        }
+ 
+        if(e.error.mensaje){
+          console.log(e.error.mensaje);
+      }
 
-        Swal.fire("Error al eliminar", e.error.mensaje, 'error');
         return throwError(() => e);
       })
     );
   }
 
+  //HttpEvent<{}> // el tipo de retorno lo confundia
+  subirFoto(archivo: File, id: any): Observable<any> {
+    //! form data -> no json --> nueva instancia 
 
-  subirFoto(archivo: File, id: any): Observable<HttpEvent<{}>> {
+  
     let formData = new FormData();
     formData.append("archivo", archivo);
     formData.append("id", id);
 
+
+    // let httpHeaders = new HttpHeaders();
+    // let token = this.authService.token;
+    // if(token !=null){
+    //   httpHeaders=  httpHeaders.append('Authorization', 'Bearer '+ token); //enviar el token en la cabezera , retorna una nueva instancia
+    // }
+
     const req = new HttpRequest('POST', `${this.urlEndPoint}/upload`, formData, {
-      reportProgress: true
+      reportProgress: true,
+      // headers:  httpHeaders
     });
 
-    console.log(this.http.request(req).subscribe(req => console.log(req)))
-    return this.http.request(req);
-    
+
+    return this.http.request(req); // controlado por nuestr interceptor 
+
   }
 
 
   getRegiones(): Observable<Region[]>{
     return this.http.get<Region[]>(this.urlEndPoint+"/regiones")
-      .pipe(
-        catchError(e=>{
-          this.isNoAutizado(e);
-          return throwError(()=>e);
-        })
-      )
+      .pipe(catchError(e=>{return throwError(()=>e);}))
   }
 
 }

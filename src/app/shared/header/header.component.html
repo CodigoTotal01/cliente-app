@@ -21,10 +21,22 @@
         </ul>
 
         <ul class="navbar-nav navbar-right">
-          <li>
+          <li *ngIf="!authService.isAuthenticated()">
             <a [routerLink]="['/auth/login']" class="btn btn-outline-primary">Sing In</a>
           </li>
+
+          
+        <li *ngIf="authService.isAuthenticated()" class="dropdown">
+          <button class="btn btn-outline-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+            {{authService.usuario.username | titlecase}}
+          </button>
+          <ul class="dropdown-menu">
+           <button (click)="logout()" class="dropdown-item bg-danger text-white" type="submit">Sing Outh</button>
+          </ul>
+        </li>
+        
         </ul>
+
 
 
 

@@ -8,6 +8,7 @@ import Swal from 'sweetalert2'; //notificaciones mas bonitas
 import { ParseError } from '@angular/compiler';
 import { ActivatedRoute } from '@angular/router';
 import { DetalleService } from '../detalle/detalle.service';
+import { AuthService } from '../../../auth/services/auth.service';
 
 
 
@@ -29,7 +30,7 @@ export class ClientesComponent implements OnInit {
   constructor(private clientesService: ClienteService
     , private activatedRoute: ActivatedRoute
     ,
-    private modalService: DetalleService) { }
+    private modalService: DetalleService, public authService: AuthService) { }
   //cunando se inicia el compoenente 
   ngOnInit(): void {
 

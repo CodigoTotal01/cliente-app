@@ -21,7 +21,7 @@
                                     <li class="list-group-item">{{cliente.region?.nombre}}</li>
                                 </ul>
 
-                                <div class="input-group mb-3">
+                                <div  *ngIf="authService.hasRole('ROLE_ADMIN')"  class="input-group mb-3">
                                     <div class="custom-file">
                                         <!-- atravez del evento obtenemos el file  -->
                                         <input (change)="seleccionarFoto($event)" type="file" class="form-control"

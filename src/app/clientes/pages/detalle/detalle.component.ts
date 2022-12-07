@@ -5,6 +5,7 @@ import { ActivatedRoute } from '@angular/router';
 import Swal from 'sweetalert2'; //notificaciones mas bonitas
 import { HttpEventType } from '@angular/common/http';
 import { DetalleService } from './detalle.service';
+import { AuthService } from '../../../auth/services/auth.service';
 
 @Component({
   selector: 'detalle-cliente',
@@ -19,7 +20,8 @@ export class DetalleComponent implements OnInit {
 
   //subcribir cuando acambia el parametro del id
   constructor(private clienteService:ClienteService, 
-    public modalService: DetalleService) { }
+    public modalService: DetalleService,
+    public authService: AuthService) { }
 
   ngOnInit(): void {
     // this.activatedRouter.paramMap.subscribe(params => {
