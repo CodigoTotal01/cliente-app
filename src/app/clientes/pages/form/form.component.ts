@@ -96,6 +96,10 @@ export class FormComponent implements OnInit {
     this.cliente = this.formularioCliente.value;
     this.cliente.id = this.id; // como el formulario no cuenta con el id
 
+    //! las facturas no ecitaran sus facturas 
+    this.cliente.facturas = null!; // nos interesa editar al cliente no a sus facturas 
+    
+
     this.clienteService.update(this.cliente).subscribe(json => {
       console.log("Cliente Actualizado");
       this.router.navigate(["/clientes"])
