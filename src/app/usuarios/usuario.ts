@@ -1,3 +1,4 @@
+import { Factura } from '../facturas/models/factura';
 export class Usuario {
     public id?: number;
     public username?: string;
@@ -6,6 +7,4 @@ export class Usuario {
     public apellido?: string;
     public email?: string;
     public roles: string[] =[]; 
-
- 
 }

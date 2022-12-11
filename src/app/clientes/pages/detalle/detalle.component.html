@@ -52,6 +52,56 @@
                                     alt="{{cliente.foto}}" class="img-thumbnail rounded">
                             </div>
                         </div>
+
+
+                        <div class="row">
+                            <th>
+                                <button name="crear-factura" type="button" [routerLink]="['/facturas/form', cliente.id]" class="btn btn-success">
+                                    Crear Factura
+                                </button>
+                            </th>
+                        </div>
+                        <!-- otra fila  -->
+                        <div class="row">
+                            <div class="alert alert-info my-4" *ngIf="cliente.facturas.length == 0">
+                                No hay facturas asignadas para {{cliente.nombre | titlecase}} {{cliente.apellido | titlecase}}
+                            </div>
+                            <table class="table table-dordered table-striped my-4" *ngIf="cliente.facturas.length > 0">
+                                <thead>
+                                    <tr>
+                                        <th>Folio</th>
+                                        <th>Descripcion</th>
+                                        <th>Fecha</th>
+                                        <th>Total</th>
+                                        <th>Detalle</th>
+                                        <th>ELiminar</th>
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+                                    <tr *ngFor="let factura of cliente.facturas">
+                                        <td>{{factura.id}}</td>
+                                        <td>{{factura.descripcion}}</td>
+                                        <td>{{factura.createAt}}</td>
+                                        <td>{{factura.total}}</td>
+                                        <td>
+                                            <button class="btn btn-primary btn-sm" type="button" 
+                                            [routerLink]="['/facturas', factura.id]">
+                                                 Ver
+                                            </button>
+                                        </td>
+
+                                        <td>
+                                            <button (click)="eliminarFactura(factura)" class="btn btn-danger btn-sm" type="button">
+                                                 Eliminar
+                                            </button>
+                                        </td>
+
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
                     </div>
                 </div>
                 <div class="modal-footer">

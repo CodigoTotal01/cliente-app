@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { Cliente } from '../../interfaces/interface';
 import { ClienteService } from '../../services/cliente.service';
 
-import { CLIENTES } from './clientes.json';
 import { tap } from 'rxjs/operators'
 import Swal from 'sweetalert2'; //notificaciones mas bonitas
 import { ParseError } from '@angular/compiler';

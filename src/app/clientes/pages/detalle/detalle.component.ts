@@ -1,11 +1,12 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Cliente } from '../../interfaces/interface';
 import { ClienteService } from '../../services/cliente.service';
-import { ActivatedRoute } from '@angular/router';
 import Swal from 'sweetalert2'; //notificaciones mas bonitas
 import { HttpEventType } from '@angular/common/http';
 import { DetalleService } from './detalle.service';
 import { AuthService } from '../../../auth/services/auth.service';
+import { Factura } from '../../../facturas/models/factura';
+import { FacturaService } from '../../../facturas/services/factura.service';
 
 @Component({
   selector: 'detalle-cliente',
@@ -21,7 +22,8 @@ export class DetalleComponent implements OnInit {
   //subcribir cuando acambia el parametro del id
   constructor(private clienteService:ClienteService, 
     public modalService: DetalleService,
-    public authService: AuthService) { }
+    public authService: AuthService,
+    public facturaService : FacturaService) { }
 
   ngOnInit(): void {
     // this.activatedRouter.paramMap.subscribe(params => {
@@ -74,4 +76,30 @@ export class DetalleComponent implements OnInit {
     this.fotoSeleccionada = null;
     this.progreso = 0;
   }
+
+
+  eliminarFactura(factura: Factura){
+      //preguntar si esta seguro de eleminar 
+      Swal.fire({
+        title: 'Está seguro?',
+        text: `estas seguro de eliminar la factura del cliente a ${factura.descripcion}`,
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Si Eliminar!'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          this.facturaService.delete(factura.id!).subscribe(respose => { //depues de eliminarlo quitarlo del arreglo con js 
+            this.cliente.facturas =  this.cliente.facturas.filter(cli => cli != factura);
+            Swal.fire(
+              'Factura elimminada!',
+              `Factura ${factura.descripcion} eliminado con éxito`,
+              'success'
+            )
+          });
+  
+        }
+      })
+    }
 }

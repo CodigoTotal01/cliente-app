@@ -18,7 +18,8 @@
 <table class="table table-bordered" *ngIf="clientes?.length! > 0 ">
     <thead>
         <tr>
-            <th *ngIf="authService.hasRole('ROLE_USER')" >#</th>
+            <!--  *ngIf="authService.hasRole('ROLE_USER')"  -->
+            <th>#</th>
             <th>Nombre
             </th>
             <th>Apellido
@@ -27,7 +28,7 @@
             </th>
             <th>Fecha
             </th>
-          
+            <th>Crear Factura</th>
             <th *ngIf="authService.hasRole('ROLE_ADMIN')" >Editar</th>
             <th *ngIf="authService.hasRole('ROLE_ADMIN')">Eliminar</th>
         </tr>
@@ -35,7 +36,8 @@
 
     <tbody>
         <tr *ngFor="let cliente of clientes">
-            <th  *ngIf="authService.hasRole('ROLE_USER')" >
+                        <!--  *ngIf="authService.hasRole('ROLE_USER')"  -->
+            <th>
 
                 <!-- Button trigger modal -->
 
@@ -62,7 +64,15 @@
                 <button name="eliminar" type="button" (click)="delete(cliente)"
                     class="btn btn-primary">Eliminar</button>
             </th>
+
+            
+            <th>
+                <button name="crear-factura" type="button" [routerLink]="['/facturas/form', cliente.id]" class="btn btn-success">
+                    Crear Factura
+                </button>
+            </th>
         </tr>
+
 
     </tbody>
 </table>

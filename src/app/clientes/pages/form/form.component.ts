@@ -29,7 +29,8 @@ export class FormComponent implements OnInit {
     email: '',
     id: 0,
     createAt: '',
-    region: this.region
+    region: this.region,
+    facturas: []
   };
   //Formulario reactivo
   formularioCliente: FormGroup = this.fb.group({

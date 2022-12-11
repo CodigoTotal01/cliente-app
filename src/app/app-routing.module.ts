@@ -4,6 +4,7 @@ import { DirectivasComponent } from './directivas/directivas.component';
 
 import { ClientesModule } from './clientes/clientes.module';
 import { AuthModule } from './auth/auth.module';
+import { FacturasModule } from './facturas/facturas.module';
 
 const routes: Routes = [
 
@@ -26,6 +27,11 @@ const routes: Routes = [
   {
     path: 'auth',
     loadChildren: () => import('./auth/auth.module').then(m => m.AuthModule)
+  },
+
+  {
+    path: 'facturas',
+    loadChildren: () => import('./facturas/facturas.module').then(m => m.FacturasModule)
   }
 
 ];
