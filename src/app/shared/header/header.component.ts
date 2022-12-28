@@ -12,14 +12,14 @@ import { Router } from '@angular/router';
 })
 export class HeaderComponent {
 
-title:string = 'Angular';
+title:string = 'Express Game Controller';
 
   constructor(public authService: AuthService, private router:Router) { }
 
 
   logout():void{
     let username = this.authService.usuario.username;
-    this.authService.logout(); //elimian sel sesion storage 
+    this.authService.logout(); //elimina la sesion del local storage 
     Swal.fire("Logout", `Esperamos volver a verte prondo ${username}, cerraste la sesion con exito!`,'success')
     this.router.navigate(["/auth/login"]);
   }
